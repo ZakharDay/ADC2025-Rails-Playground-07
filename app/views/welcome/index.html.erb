@@ -1,0 +1,13 @@
+<%
+  colors = [
+    ['красный', 'red'],
+    ['синий',   'blue'],
+    ['голубой', 'cyan']
+  ]
+%>
+
+<% colors.each do |color| %>
+  <%= render 'counter', color: color %>
+<% end %>
+
+<h1>Выбирай себе любой</h1>
