@@ -22,6 +22,11 @@
   </div>
 
   <div>
+    <%= form.label :category_list, style: "display: block" %>
+    <%= form.select :category_list, [["Rails", "Rails"], ["React", "React"], ["Ruby", "Ruby"], ["Java Script", "Java Script"]] %>
+  </div>
+
+  <div>
     <%= form.label :cover, style: "display: block" %>
     <%= form.file_field :cover %>
   </div>
@@ -29,6 +34,11 @@
   <div>
     <%= form.label :body, style: "display: block" %>
     <%= form.textarea :body %>
+  </div>
+
+  <div>
+    <%= form.label :tag_list, style: "display: block" %>
+    <%= form.text_field :tag_list %>
   </div>
 
   <div>

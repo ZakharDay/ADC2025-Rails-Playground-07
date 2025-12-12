@@ -1,6 +1,17 @@
 <div id="<%= dom_id post %>">
-  <%= image_tag post.cover.url, width: 600 %>
+  <%= image_tag post.cover.url %>
+  <br>
+  <%= image_tag post.cover.thumb.url %>
+  <br>
+  <%= image_tag post.cover.q70.url %>
+
   <h2><%= post.title %></h2>
   <p>Author: <%= post.author %></p>
   <p><%= post.body %></p>
+
+  <p>
+    <% post.tag_list.each do |tag| %>
+      <%= link_to tag, by_tag_posts_path(tag) %>
+    <% end %>
+  </p>
 </div>

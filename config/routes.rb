@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   resources :posts do
     resources :comments
+
+    collection do
+      get "by_tag/:tag", to: "by_tag", as: "by_tag"
+    end
   end
 
   get "welcome/index"

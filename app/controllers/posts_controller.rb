@@ -6,6 +6,11 @@ class PostsController < ApplicationController
     @posts = Post.all
   end
 
+  def by_tag
+    @posts = Post.tagged_with(params[:tag])
+    render :index
+  end
+
   # GET /posts/1 or /posts/1.json
   def show
   end
@@ -65,6 +70,6 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.expect(post: [ :title, :body, :author, :cover ])
+      params.expect(post: [ :title, :body, :author, :cover, :tag_list, :category_list ])
     end
 end
