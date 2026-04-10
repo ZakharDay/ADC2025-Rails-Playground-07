@@ -1,13 +1,22 @@
 <div id="<%= dom_id post %>">
   <%= image_tag post.cover.url %>
-  <br>
-  <%= image_tag post.cover.thumb.url %>
-  <br>
-  <%= image_tag post.cover.q70.url %>
+  <%# <br> %>
+  <%#= image_tag post.cover.thumb.url %>
+  <%# <br> %>
+  <%#= image_tag post.cover.q70.url %>
 
-  <h2><%= post.title %></h2>
-  <p>Author: <%= post.author %></p>
+  <h2><%= link_to post.title, post %></h2>
+  <p>Author: <%= post.user.email %></p>
   <p><%= post.body.html_safe %></p>
+
+  <%
+    is_favourite = FavouritePost.where(user_id: current_user.id, post_id: post.id)
+    link_text = is_favourite.any? ? "Unfavourite" : "Favourite"
+  %>
+
+  <div>
+    <%= link_to link_text, toggle_favourite_post_path(post) %>
+  </div>
 
   <p>
     <% post.tag_list.each do |tag| %>

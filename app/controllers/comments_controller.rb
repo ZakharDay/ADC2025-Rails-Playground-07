@@ -1,9 +1,15 @@
 class CommentsController < ApplicationController
+  before_action :authenticate_user!, only: [:create, :destroy]
   before_action :set_post, only: %i[ create destroy ]
 
   def create
-    @comment = @post.comments.create(params[:comment].permit(:body))
-    redirect_to post_path(@post)
+    @comment = current_user.comments.new(params[:comment].permit(:body))
+    @comment.post_id = @post.id
+
+    # @comment = @post.comments.create(params[:comment].permit(:body))
+    if @comment.save
+      redirect_to post_path(@post)
+    end
   end
 
   def destroy

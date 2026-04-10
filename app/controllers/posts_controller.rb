@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, only: [:new, :edit, :destroy]
+  before_action :set_post, only: %i[ toggle_favourite show edit update destroy ]
 
   # GET /posts or /posts.json
   def index
@@ -9,6 +10,23 @@ class PostsController < ApplicationController
   def by_tag
     @posts = Post.tagged_with(params[:tag])
     render :index
+  end
+
+  def favourites
+    @posts = current_user.favourites
+    render :index
+  end
+
+  def toggle_favourite
+    favourite_post = FavouritePost.where(user_id: current_user.id, post_id: @post.id)
+
+    if favourite_post.any?
+      favourite_post.destroy_all
+    else
+      FavouritePost.create(user_id: current_user.id, post_id: @post.id)
+    end
+
+    redirect_back fallback_location: posts_path
   end
 
   # GET /posts/1 or /posts/1.json
@@ -27,6 +45,7 @@ class PostsController < ApplicationController
   # POST /posts or /posts.json
   def create
     @post = Post.new(post_params)
+    @post.user_id = current_user.id
 
     respond_to do |format|
       if @post.save
