@@ -1,0 +1,15 @@
+<div class="reactionCounter" id="<%= dom_id post %>_reactions_counter">
+  <% if post.reactions.any? %>
+    <% post.reactions.collect { |r| r.kind }.uniq.each do |reaction_kind| %>
+      <div class="reaction <%= reaction_kind %>"></div>
+    <% end %>
+
+    <div class="counter">
+      <%= post.reactions.count %>
+    </div>
+  <% else %>
+    <div class="counter">
+      Оставить реакцию
+    </div>
+  <% end %>
+</div>

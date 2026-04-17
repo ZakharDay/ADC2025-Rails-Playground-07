@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     member do
       get "toggle_favourite"
       get "toggle_like"
+      get "toggle_reaction/:kind", to: "toggle_reaction", as: "toggle_reaction"
     end
 
     collection do

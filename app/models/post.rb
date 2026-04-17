@@ -4,6 +4,9 @@ class Post < ApplicationRecord
 
   has_many :likes, as: :likeable
 
+  has_many :reactions
+  has_many :reacted_users, through: :reactions, source: :user
+
   validates :title, presence: true, length: { minimum: 5 }
   mount_uploader :cover, PostCoverUploader
 
@@ -11,4 +14,6 @@ class Post < ApplicationRecord
   
   acts_as_taggable_on :tags
   acts_as_taggable_on :categories
+
+  # self.per_page = 2
 end

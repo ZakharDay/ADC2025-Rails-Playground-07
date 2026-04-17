@@ -38,4 +38,9 @@
       <%= link_to tag, by_tag_posts_path(tag) %>
     <% end %>
   </p>
+
+  <div class="reactionsWrapper">
+    <%= render partial: "reactions/counter", locals: { post: post } %>
+    <%= render partial: "reactions/reaction_form", locals: { post: post } %>
+  </div>
 </div>

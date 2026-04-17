@@ -5,7 +5,7 @@ def seed
   reset_db
   clean_uploads_folder
   create_users(10)
-  create_posts(10)
+  create_posts(50)
   create_comments(2..8)
 end
 

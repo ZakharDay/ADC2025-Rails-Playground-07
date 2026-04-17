@@ -21,3 +21,78 @@ body {
   display: flex;
   justify-content: space-between;
 }
+
+.reactionsWrapper {
+  width: min-content;
+
+  &:hover {
+    .reactionForm {
+      display: flex;
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+      background-color: white;
+      border: 1px solid lightgrey;
+    }
+  }
+
+  .reactionForm {
+    display: none;
+  }
+}
+
+.reactionForm {
+  position: absolute;
+}
+
+.reactionForm,
+.reactionCounter {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: nowrap;
+  gap: 6px;
+  width: min-content;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: lightgrey;
+
+  .counter {
+    line-height: 30px;
+    text-wrap: nowrap;
+    cursor: default;
+  }
+
+  .reaction {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    cursor: pointer;
+
+    &.active {
+      border: 2px solid black;
+    }
+
+    &.red {
+      background-color: red;
+    }
+
+    &.green {
+      background-color: green;
+    }
+
+    &.blue {
+      background-color: blue;
+    }
+
+    &.orange {
+      background-color: orange;
+    }
+
+    &.yellow {
+      background-color: yellow;
+    }
+
+    &.pink {
+      background-color: pink;
+    }
+  }
+}

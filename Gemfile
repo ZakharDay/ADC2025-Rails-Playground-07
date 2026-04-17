@@ -45,6 +45,7 @@ gem "carrierwave-imageoptimizer"
 gem "acts-as-taggable-on"
 # gem "lexxy", "~> 0.1.26.beta"
 gem "devise"
+gem "will_paginate", "~> 4.0"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

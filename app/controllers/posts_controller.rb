@@ -1,10 +1,10 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :edit, :destroy]
-  before_action :set_post, only: %i[ toggle_favourite toggle_like show edit update destroy ]
+  before_action :set_post, only: %i[ toggle_favourite toggle_like toggle_reaction show edit update destroy ]
 
-  # GET /posts or /posts.json
   def index
-    @posts = Post.all
+    # @posts = Post.all
+    @posts = Post.paginate(page: params[:page])
   end
 
   def by_tag
@@ -27,6 +27,7 @@ class PostsController < ApplicationController
     end
 
     # redirect_back fallback_location: posts_path
+    render :replace_post
   end
 
   def toggle_like
@@ -39,22 +40,32 @@ class PostsController < ApplicationController
     end
 
     # redirect_back fallback_location: posts_path
+    render :replace_post
   end
 
-  # GET /posts/1 or /posts/1.json
+  def toggle_reaction
+    reaction = Reaction.where(user_id: current_user.id, post_id: @post.id, kind: params[:kind])
+
+    if reaction.any?
+      reaction.destroy_all
+    else
+      Reaction.create(user_id: current_user.id, post_id: @post.id, kind: params[:kind])
+    end
+
+    # redirect_back fallback_location: posts_path
+    render :replace_post
+  end
+
   def show
   end
 
-  # GET /posts/new
   def new
     @post = Post.new
   end
 
-  # GET /posts/1/edit
   def edit
   end
 
-  # POST /posts or /posts.json
   def create
     @post = Post.new(post_params)
     @post.user_id = current_user.id
@@ -70,7 +81,6 @@ class PostsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /posts/1 or /posts/1.json
   def update
     respond_to do |format|
       if @post.update(post_params)
@@ -83,7 +93,6 @@ class PostsController < ApplicationController
     end
   end
 
-  # DELETE /posts/1 or /posts/1.json
   def destroy
     @post.destroy!
 
@@ -94,12 +103,11 @@ class PostsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+
     def set_post
       @post = Post.find(params.expect(:id))
     end
 
-    # Only allow a list of trusted parameters through.
     def post_params
       params.expect(post: [ :title, :body, :author, :cover, :tag_list, :category_list ])
     end
