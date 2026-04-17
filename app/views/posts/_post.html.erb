@@ -1,21 +1,36 @@
-<div id="<%= dom_id post %>">
+<div id="<%= dom_id(post) %>">
   <%= image_tag post.cover.url %>
   <%# <br> %>
   <%#= image_tag post.cover.thumb.url %>
   <%# <br> %>
   <%#= image_tag post.cover.q70.url %>
 
-  <h2><%= link_to post.title, post %></h2>
+  <h2><%= link_to post.title, post, data: { turbo: false } %></h2>
   <p>Author: <%= post.user.email %></p>
   <p><%= post.body.html_safe %></p>
 
   <%
-    is_favourite = FavouritePost.where(user_id: current_user.id, post_id: post.id)
-    link_text = is_favourite.any? ? "Unfavourite" : "Favourite"
+    if user_signed_in?
+      is_favourite = FavouritePost.where(user_id: current_user.id, post_id: post.id)
+      favourite_link_text = is_favourite.any? ? "Unfavourite" : "Favourite"
+  
+      is_liked = Like.where(user_id: current_user.id, likeable_type: 'Post', likeable_id: post.id)
+      like_link_text = is_liked.any? ? "Unlike" : "Like"
+    end
   %>
 
   <div>
-    <%= link_to link_text, toggle_favourite_post_path(post) %>
+    <% if user_signed_in? %>
+      <%= link_to favourite_link_text, toggle_favourite_post_path(post), data: { turbo_stream: true } %>
+      <%= link_to like_link_text, toggle_like_post_path(post), data: { turbo_stream: true } %>
+    <% else %>
+      <%= link_to "Favourite", new_user_session_path %>
+      <%= link_to "Like", new_user_session_path %>
+    <% end %>
+
+    <br><br>
+
+    <%= render partial: "likes/counter", locals: { likeable: post } %>
   </div>
 
   <p>

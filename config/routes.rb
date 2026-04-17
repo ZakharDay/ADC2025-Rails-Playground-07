@@ -1,11 +1,18 @@
 Rails.application.routes.draw do
   devise_for :users
 
+  resources :comments, only: [:show] do
+    member do
+      get "toggle_like"
+    end
+  end
+
   resources :posts do
     resources :comments
 
     member do
       get "toggle_favourite"
+      get "toggle_like"
     end
 
     collection do

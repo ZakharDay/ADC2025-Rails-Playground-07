@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :edit, :destroy]
-  before_action :set_post, only: %i[ toggle_favourite show edit update destroy ]
+  before_action :set_post, only: %i[ toggle_favourite toggle_like show edit update destroy ]
 
   # GET /posts or /posts.json
   def index
@@ -26,7 +26,19 @@ class PostsController < ApplicationController
       FavouritePost.create(user_id: current_user.id, post_id: @post.id)
     end
 
-    redirect_back fallback_location: posts_path
+    # redirect_back fallback_location: posts_path
+  end
+
+  def toggle_like
+    liked_post = Like.where(user_id: current_user.id, likeable_type: 'Post', likeable_id: @post.id)
+
+    if liked_post.any?
+      liked_post.destroy_all
+    else
+      Like.create(user_id: current_user.id, likeable_type: 'Post', likeable_id: @post.id)
+    end
+
+    # redirect_back fallback_location: posts_path
   end
 
   # GET /posts/1 or /posts/1.json

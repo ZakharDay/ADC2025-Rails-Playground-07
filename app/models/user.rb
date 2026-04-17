@@ -8,10 +8,7 @@ class User < ApplicationRecord
   has_many :comments
 
   has_many :favourite_posts
-  has_many :favourites, through: :favourite_posts, class_name: "Post", foreign_key: "post_id"
+  has_many :favourites, through: :favourite_posts, source: :post
 
-  # has_many :fill_colors
-  # has_many :colors, through: :fill_colors
-  # has_many :forks, class_name: "Swatch", foreign_key: "origin_id"
-  # belongs_to :origin, class_name: "Swatch", optional: true
+  has_many :likes, as: :likeable
 end

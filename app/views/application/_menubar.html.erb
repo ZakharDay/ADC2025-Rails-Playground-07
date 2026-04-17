@@ -1,7 +1,8 @@
 <nav class="S_MenuBar">
   <div>
-    <%= link_to "Главная", root_url %>
-    <%= link_to "Посты", posts_url %>
+    <%= link_to "Главная", root_url, data: { turbo: false } %>
+    <%= link_to "Посты", posts_url, data: { turbo: false } %>
+    <%= link_to "Избранное", favourites_posts_url, data: { turbo: false } %>
   </div>
 
   <div>

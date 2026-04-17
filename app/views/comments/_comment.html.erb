@@ -1,5 +1,25 @@
-<p><%= comment.body %></p>
+<div id="<%= dom_id(comment) %>">
+  <p><%= comment.body %></p>
+  <%#= link_to "Destroy Comment", [comment.post, comment], data: { turbo_stream: false, turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
 
-<p>
-  <%= link_to "Destroy Comment", [comment.post, comment], data: { turbo_stream: false, turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
-</p>
+  <%
+    if user_signed_in?
+      is_liked = Like.where(user_id: current_user.id, likeable_type: 'Comment', likeable_id: comment.id)
+      like_link_text = is_liked.any? ? "Unlike" : "Like"
+    end
+  %>
+
+  <div>
+    <% if user_signed_in? %>
+      <%= link_to like_link_text, toggle_like_comment_path(comment), data: { turbo_stream: true } %>
+    <% else %>
+      <%= link_to "Like", new_user_session_path %>
+    <% end %>
+
+    <br><br>
+
+    <%= render partial: "likes/counter", locals: { likeable: comment } %>
+  </div>
+
+  <hr>
+</div>
