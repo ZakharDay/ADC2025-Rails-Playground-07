@@ -1,3 +1,8 @@
+# require 'rake'
+# require 'rake/testtask'
+# require 'rake/rdoctask'
+# require 'tasks/rails'
+
 class PostsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :edit, :destroy]
   before_action :set_post, only: %i[ toggle_favourite toggle_like toggle_reaction show edit update destroy ]
@@ -72,6 +77,9 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.save
+        # system('rake background:create_share_image')
+        # Rake::Task['background:create_share_image'].invoke
+
         format.html { redirect_to @post, notice: "Post was successfully created." }
         format.json { render :show, status: :created, location: @post }
       else

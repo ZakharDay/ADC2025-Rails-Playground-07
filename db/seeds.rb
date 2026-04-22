@@ -39,7 +39,7 @@ end
 def create_sentence
   sentence_words = []
 
-  (10..20).to_a.sample.times do
+  (6..14).to_a.sample.times do
     sentence_words << @words.sample
   end
 
