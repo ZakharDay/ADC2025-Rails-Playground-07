@@ -80,6 +80,8 @@ class PostsController < ApplicationController
         # system('rake background:create_share_image')
         # Rake::Task['background:create_share_image'].invoke
 
+        GenerateShareImageJob.perform_later(@post)
+
         format.html { redirect_to @post, notice: "Post was successfully created." }
         format.json { render :show, status: :created, location: @post }
       else
@@ -92,6 +94,8 @@ class PostsController < ApplicationController
   def update
     respond_to do |format|
       if @post.update(post_params)
+        GenerateShareImageJob.perform_later(@post)
+
         format.html { redirect_to @post, notice: "Post was successfully updated.", status: :see_other }
         format.json { render :show, status: :ok, location: @post }
       else
@@ -102,6 +106,9 @@ class PostsController < ApplicationController
   end
 
   def destroy
+    filepath = @post.share_image
+    File.delete(File.join(Rails.root, "public/#{filepath}"))
+
     @post.destroy!
 
     respond_to do |format|

@@ -3,6 +3,12 @@
 
 <p style="color: green"><%= notice %></p>
 
+<% content_for :head do %>
+  <% if @post.share_image %>
+    <meta property="og:image" content="http://localhost:3000/<%= @post.share_image %>" />
+  <% end %>
+<% end %>
+
 <%= render @post %>
 
 <div>

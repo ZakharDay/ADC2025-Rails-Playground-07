@@ -1,5 +1,5 @@
 <div id="<%= dom_id(post) %>">
-  <%= image_tag post.cover.url %>
+  <%= image_tag post.cover.url if post.cover.present? %>
   <%# <br> %>
   <%#= image_tag post.cover.thumb.url %>
   <%# <br> %>

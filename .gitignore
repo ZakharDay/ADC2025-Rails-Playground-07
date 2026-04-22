@@ -35,3 +35,4 @@
 .DS_Store
 /public/autoupload
 /public/uploads
+/public/shared
